@@ -1,0 +1,67 @@
+########################################
+# Build results
+########################################
+bin/
+obj/
+[Bb]uild/
+[Ll]og/
+artifacts/
+
+########################################
+# User-specific files
+########################################
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.rsuser
+
+########################################
+# Visual Studio
+########################################
+.vs/
+*.vcxproj.user
+*.dbmdl
+*.jfm
+
+# Test results
+TestResult*/
+*.VisualState.xml
+*.cachefile
+
+# Publish
+*.Publish.xml
+*.pubxml
+*.pubxml.user
+*.publishsettings
+
+########################################
+# Rider / IntelliJ
+########################################
+.idea/
+*.sln.iml
+
+########################################
+# NuGet
+########################################
+*.nupkg
+*.snupkg
+*.nuget.props
+*.nuget.targets
+packages/
+
+########################################
+# Others
+########################################
+*.tmp
+*.bak
+*.log
+*.pidb
+*.svclog
+*.pdb
+
+# OS files
+[Dd]esktop.ini
+[Tt]humbs.db
+ehthumbs.db
+*.DS_Store
