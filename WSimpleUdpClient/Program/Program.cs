@@ -1,5 +1,4 @@
 ﻿using Client;
-using Server;
 using System.Text;
 
 namespace Program;
