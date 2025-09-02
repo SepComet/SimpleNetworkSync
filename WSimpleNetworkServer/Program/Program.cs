@@ -1,4 +1,5 @@
-﻿using Server;
+﻿using System.Text;
+using Server;
 
 namespace Program;
 
@@ -28,7 +29,7 @@ internal static class Program
         {
             server = new SimpleUdpServer();
         }
-        
+
         Console.CancelKeyPress += (_, eventArgs) =>
         {
             eventArgs.Cancel = true;
@@ -43,7 +44,7 @@ internal static class Program
         {
             Console.WriteLine($"服务器启动错误：{ex.Message}");
         }
-        
+
         Console.WriteLine("按任意键退出");
         Console.ReadKey();
     }

@@ -1,4 +1,6 @@
 ﻿using Client;
+using Server;
+using System.Text;
 
 namespace Program;
 
@@ -33,15 +35,21 @@ internal static class Program
         Console.WriteLine($"远程服务器：{address}:{port}");
         Console.WriteLine();
 
-        var client = new SimpleUdpClient();
+        var client = new SimpleUdpClient(address, port);
+        bool receive = await client.SendMessageAsync(message);
+        if (!receive)
+        {
+            Console.WriteLine("服务器连接失败");
+            return;
+        }
 
         if (args.Length >= 3)
         {
-            await client.SendMessageAsync(port, address, message);
+            await client.SendMessageAsync(message);
         }
         else
         {
-            Console.WriteLine("交互模式");
+            Console.WriteLine("服务器连接成功，开始交互模式");
 
             while (true)
             {
@@ -51,7 +59,7 @@ internal static class Program
                 {
                     break;
                 }
-                await client.SendMessageAsync(port, address, message);
+                await client.SendMessageAsync(message);
                 Console.WriteLine();
             }
         }

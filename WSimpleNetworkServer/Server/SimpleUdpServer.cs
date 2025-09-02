@@ -35,7 +35,7 @@ public class SimpleUdpServer(int _port = 8080)
                 var result = await _client.ReceiveAsync();
                 string message = Encoding.UTF8.GetString(result.Buffer);
 
-                Console.WriteLine($"[{DateTime.Now::HH:mm:ss}] 收到消息：‘{message}’ 来自{result.RemoteEndPoint}");
+                Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] 收到消息：‘{message}’ 来自{result.RemoteEndPoint}");
 
                 string response;
                 if (message.Trim() == "Hello")
@@ -49,7 +49,7 @@ public class SimpleUdpServer(int _port = 8080)
 
                 byte[] buffer = Encoding.UTF8.GetBytes(response);
                 await _client.SendAsync(buffer, buffer.Length, result.RemoteEndPoint);
-                Console.WriteLine($"[{DateTime.Now::HH:mm:ss}] 回复消息：‘{response}’ 发往{result.RemoteEndPoint}");
+                Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] 回复消息：‘{response}’ 发往{result.RemoteEndPoint}");
             }
             catch (ObjectDisposedException)
             {
