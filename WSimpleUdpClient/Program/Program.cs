@@ -7,7 +7,7 @@ namespace Program;
 internal static class Program
 {
     /// <summary>
-    /// 客户端入口函数
+    /// 客户端入口函数（迭代一）
     /// </summary>
     /// <remarks>
     /// <para>
@@ -67,6 +67,21 @@ internal static class Program
         Console.WriteLine("客户端结束运行");
     }
 
+    /// <summary>
+    /// 客户端入口函数（迭代二）
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// 执行流程
+    /// </para>
+    /// <list type="number">
+    /// <item>检查命令行参数：args[0]:端口号 args[1]:服务端地址 args[2]:发送的消息</item>
+    /// <item>若有 args[2] 参数，则向服务器发送消息，然后退出程序</item>
+    /// <item>若没有 args[2] 参数，进入交互模式</item>
+    /// <item>用户输入 quit 时退出</item>
+    /// </list>
+    /// </remarks>
+    /// <param name="args">命令行参数（可选）</param>
     public static async Task Main(string[] args)
     {
         int port = args.Length >= 1 ? int.Parse(args[0]) : 8080;
