@@ -1,5 +1,6 @@
 ﻿using Client;
 using System.Text;
+using Network;
 
 namespace Program;
 
