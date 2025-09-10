@@ -1,5 +1,5 @@
 ﻿using Client;
-using Server;
+using Network;
 using System.Text;
 
 namespace Program;
@@ -21,7 +21,7 @@ internal static class Program
     /// </list>
     /// </remarks>
     /// <param name="args">命令行参数（可选）</param>
-    public static async Task Main(string[] args)
+    public static async Task Main1(string[] args)
     {
         int port = 8080;
         string address = "127.0.0.1";
@@ -65,5 +65,69 @@ internal static class Program
         }
 
         Console.WriteLine("客户端结束运行");
+    }
+
+    public static async Task Main(string[] args)
+    {
+        int port = args.Length >= 1 ? int.Parse(args[0]) : 8080;
+        string address = args.Length >= 2 ? args[1] : "127.0.0.1";
+
+        bool receiveMessage = false;
+
+        var client = new ReliableUdpTransport(address, port);
+
+        client.OnReceive += (data, endPoint) =>
+        {
+            string message = Encoding.UTF8.GetString(data);
+            Console.WriteLine($"[Client] 应用层收到消息：‘{message}’");
+            receiveMessage = true;
+        };
+
+        await client.StartAsync();
+
+        // 发送测试信息
+        Console.WriteLine("发送测试信息");
+        client.Send(Encoding.UTF8.GetBytes("Hello"));
+        Console.WriteLine("[Client] 应用层发送消息：‘Hello’");
+
+        int waitTime = 0;
+        while (!receiveMessage && waitTime < 10000)
+        {
+            await Task.Delay(100);
+            waitTime += 100;
+        }
+
+        if (!receiveMessage)
+        {
+            Console.WriteLine("[Client] 接收超时");
+            Console.WriteLine("[Client] 服务器连接失败");
+            Console.WriteLine("按任意键退出...");
+            Console.ReadKey();
+
+            client.Stop();
+            return;
+        }
+
+        Console.WriteLine("[Client] 连接成功，客户端运行中...");
+
+        while (true)
+        {
+            string message = Console.ReadLine();
+            if (!string.IsNullOrEmpty(message) && message != "quit")
+            {
+
+                var data = Encoding.UTF8.GetBytes(message);
+                client.Send(data);
+                Console.WriteLine($"[Client] 应用层发送消息：‘{message}’");
+                Console.WriteLine();
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        Console.WriteLine("[Client] 应用层停止工作");
+        client.Stop();
     }
 }
